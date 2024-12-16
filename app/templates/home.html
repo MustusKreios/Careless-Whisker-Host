@@ -8,15 +8,50 @@
     <link rel="stylesheet" href="{% static 'css/Home.css' %}">
     <link rel="stylesheet" href="{% static 'css/welcome.css' %}">
     <link rel="stylesheet" href="{% static 'css/login.css' %}">
-
+    <link rel="stylesheet" href="{% static 'css/sidebar.css' %}"> <!-- External CSS for sidebar -->
 </head>
 <body>
-    <div class="home-parent">
-        <div class="home-page">
+    <!-- Toggle Sidebar Button -->
+    <button class="toggle-btn" id="toggle-btn">☰</button>
 
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="logo">
+            <h2>Pet Clinic</h2>
+        </div>
+        <ul class="nav-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="/services">Services</a></li>
+            <li>
+                <a href="#" class="dropdown-btn">About Us</a>
+                <ul class="dropdown-content">
+                    <li><a href="/about">Our Team</a></li>
+                    <li><a href="/mission">Our Mission</a></li>
+                </ul>
+            </li>
+            <li><a href="/contact">Contact</a></li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="home-parent" id="home-content">
+        <div class="home-page">
             <header>
                 {% include "partials/header.html" with notifications=notifications %}
-
+                <nav class="nav-bar">
+                    <ul class="nav-menu">
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/services">Services</a></li>
+                        <li class="dropdown">
+                            <a href="#" class="drop-btn">About Us</a>
+                            <ul class="dropdown-menu hidden">
+                                <li><a href="/about">Our Team</a></li>
+                                <li><a href="/mission">Our Mission</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="/contact">Contact</a></li>
+                    </ul>
+                </nav>
             </header>
         </div>
 
@@ -69,29 +104,28 @@
             </div>
         </div>
     </div>
+
+    <!-- Script -->
+    <script>
+        const toggleBtn = document.getElementById('toggle-btn');
+        const sidebar = document.getElementById('sidebar');
+        const homeContent = document.getElementById('home-content');
+        const dropdownBtns = document.querySelectorAll('.dropdown-btn');
+
+        // Toggle Sidebar
+        toggleBtn.addEventListener('click', () => {
+            sidebar.classList.toggle('show-sidebar');
+            homeContent.classList.toggle('shifted');
+        });
+
+        // Dropdown Toggle
+        dropdownBtns.forEach(button => {
+            button.addEventListener('click', (e) => {
+                e.preventDefault();
+                const dropdownContent = button.nextElementSibling;
+                dropdownContent.classList.toggle('show');
+            });
+        });
+    </script>
 </body>
 </html>
-
-<script>
-    document.getElementById('notif-btn').addEventListener('click', () => {
-        document.getElementById('notif-modal').classList.toggle('hidden');
-    });
-
-    document.getElementById('profile-btn').addEventListener('click', () => {
-        document.getElementById('dropdown-menu').classList.toggle('hidden');
-    });
-
-    document.getElementById('profile-modal-btn').addEventListener('click', () => {
-        document.getElementById('profile-modal').classList.toggle('hidden');
-    });
-
-    document.querySelectorAll('.modal .close-btn').forEach((btn) => {
-        btn.addEventListener('click', (e) => {
-            e.target.closest('.modal').classList.add('hidden');
-        });
-    });
-</script>
-
-
-
-
